@@ -1,6 +1,6 @@
-
 <!doctype html>
 <html>
+
 <head>
     <title>Example Domain</title>
 
@@ -10,13 +10,9 @@
     <script src="https://unpkg.com/alpinejs" defer></script>
 </head>
 
-<body>
-    <div x-data="{ open: false }">
-        <button @click="open = true">Expand</button>
-     
-        <span x-show="open">
-          Content...
-        </span>
-    </div>
-    </body>
+<body x-data="{url: 'xxxx'}">
+    <textarea @change="url = new URL($el.value)"></textarea>
+    <div x-text="url"></div>
+</body>
+
 </html>
