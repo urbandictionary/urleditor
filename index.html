@@ -1,18 +1,55 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    <title>Query Parameter Manager</title>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+  </head>
+  <body>
+    <div x-data="{ url: '', params: [] }">
+      <!-- Input for pasting in a URL -->
+      <label for="url-input">URL:</label>
+      <input id="url-input" type="text" x-model="url" @input="parseParams">
 
-<head>
-    <title>Example Domain</title>
+      <!-- Display the list of query parameters -->
+      <ul>
+        <template x-for="param in params" :key="param.key">
+          <li>
+            <!-- Display the key and value of the query parameter -->
+            <span x-text="param.key"></span>
+            <input type="text" x-model="param.value">
 
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://unpkg.com/alpinejs" defer></script>
-</head>
+            <!-- Add a button to remove the query parameter -->
+            <button @click="params = params.filter(p => p.key !== param.key)">
+              Remove
+            </button>
+          </li>
+        </template>
+      </ul>
 
-<body x-data="{url: 'xxxx'}">
-    <textarea @change="url = new URL($el.value)"></textarea>
-    <div x-text="url"></div>
-</body>
+      <!-- Add a button to add a new query parameter -->
+      <button @click="params.push({ key: '', value: '' })">
+        Add Query Parameter
+      </button>
 
+      <!-- Display the updated URL in real-time -->
+      <p>Updated URL: <span x-text="formatUrl"></span></p>
+    </div>
+
+    <script>
+      // Parse the query parameters from the URL
+      function parseParams() {
+        const url = new URL(this.url);
+        this.params = [...url.searchParams.entries()].map(([key, value]) => ({ key, value }));
+      }
+
+      // Format the URL with the updated query parameters
+      function formatUrl() {
+        const url = new URL(this.url);
+        url.search = '';
+        this.params.forEach(param => url.searchParams.set(param.key, param.value));
+        return url.toString();
+      }
+    </script>
+  </body>
 </html>
