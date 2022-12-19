@@ -27,7 +27,7 @@
   </script>
 </head>
 
-<body>
+<body class="bg-gray-100">
   <div x-data="app" class="max-w-xl mx-auto mt-8">
     <div class="flex items-center mb-8 gap-2">
       <label for="url-input" class="font-bold">URL:</label>
@@ -39,8 +39,7 @@
         <li class="flex items-center mb-2 gap-2">
           <input type="text" x-model="param.key" class="flex-1 p-2 rounded-lg border shadow-md">
           <input type="text" x-model="param.value" class="flex-1 p-2 rounded-lg border shadow-md">
-          <button @click="params = params.filter(p => p.key !== param.key)"
-            class="p-2 rounded-lg shadow-md bg-red-500 text-white">
+          <button @click="params.splice(index, 1)" class="p-2 rounded-lg shadow-md bg-red-500 text-white">
             Remove
           </button>
         </li>
