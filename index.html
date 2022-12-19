@@ -21,7 +21,6 @@
         const url = new URL(this.url);
         url.search = '';
         this.params.forEach(param => url.searchParams.set(param.key, param.value));
-        console.log(url.toString());
         return url.toString();
       }
     };
