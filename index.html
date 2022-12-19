@@ -1,55 +1,54 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Query Parameter Manager</title>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
-  </head>
-  <body>
-    <div x-data="{ url: '', params: [] }">
-      <!-- Input for pasting in a URL -->
-      <label for="url-input">URL:</label>
-      <input id="url-input" type="text" x-model="url" @input="parseParams">
 
-      <!-- Display the list of query parameters -->
-      <ul>
-        <template x-for="param in params" :key="param.key">
-          <li>
-            <!-- Display the key and value of the query parameter -->
-            <span x-text="param.key"></span>
-            <input type="text" x-model="param.value">
+<head>
+  <meta charset="utf-8">
+  <title>Query Parameter Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+</head>
 
-            <!-- Add a button to remove the query parameter -->
-            <button @click="params = params.filter(p => p.key !== param.key)">
-              Remove
-            </button>
-          </li>
-        </template>
-      </ul>
-
-      <!-- Add a button to add a new query parameter -->
-      <button @click="params.push({ key: '', value: '' })">
-        Add Query Parameter
-      </button>
-
-      <!-- Display the updated URL in real-time -->
-      <p>Updated URL: <span x-text="formatUrl"></span></p>
-    </div>
-
-    <script>
-      // Parse the query parameters from the URL
-      function parseParams() {
+<body>
+  <div x-data="app">
+    <label for="url-input" class="block text-xl font-bold mb-2">URL:</label>
+    <input id="url-input" type="text" x-model="url" @input="parseParams" class="block w-full p-2 rounded-lg shadow-md">
+    <ul class="list-inside list-disc">
+      <template x-for="param in params" :key="param.key">
+        <li class="flex items-center mb-2">
+          <input type="text" x-model="param.key" class="flex-1 p-2 rounded-lg shadow-md">
+          <input type="text" x-model="param.value" class="flex-1 p-2 rounded-lg shadow-md">
+          <button @click="params = params.filter(p => p.key !== param.key)"
+            class="p-2 rounded-lg shadow-md bg-red-500 text-white">
+            Remove
+          </button>
+        </li>
+      </template>
+    </ul>
+    <button @click="params.push({ key: '', value: '' })"
+      class="block w-full p-2 rounded-lg shadow-md bg-blue-500 text-white mb-2">
+      Add Query Parameter
+    </button>
+    <p class="text-xl font-bold mb-2">Updated URL:</p>
+    <p class="text-xl font-bold" x-bind:text="formattedUrl"></p>
+  </div>
+  <script>
+    const app = {
+      url: '',
+      params: [],
+      formattedUrl: '',
+      parseParams() {
         const url = new URL(this.url);
         this.params = [...url.searchParams.entries()].map(([key, value]) => ({ key, value }));
-      }
-
-      // Format the URL with the updated query parameters
-      function formatUrl() {
+        this.formattedUrl = this.formatUrl();
+      },
+      formatUrl() {
         const url = new URL(this.url);
         url.search = '';
         this.params.forEach(param => url.searchParams.set(param.key, param.value));
         return url.toString();
       }
-    </script>
-  </body>
+    };
+  </script>
+</body>
+
 </html>
