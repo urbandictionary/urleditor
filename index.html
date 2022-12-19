@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>Query Parameter Manager</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script>
     const app = {
@@ -28,14 +28,17 @@
 </head>
 
 <body>
-  <div x-data="app">
-    <label for="url-input" class="block text-xl font-bold mb-2">URL:</label>
-    <input id="url-input" type="text" x-model="url" x-bind:value="formattedUrl" @input="parseParams" class="block w-full p-2 rounded-lg shadow-md">
+  <div x-data="app" class="max-w-xl mx-auto mt-8">
+    <div class="flex items-center mb-8 gap-2">
+      <label for="url-input" class="font-bold">URL:</label>
+      <input id="url-input" type="text" x-model="url" x-bind:value="formattedUrl" @input="parseParams"
+        class="block w-full p-2 rounded-lg border shadow-md">
+    </div>
     <ul class="list-inside list-disc">
       <template x-for="(param, index) in params" :key="index">
-        <li class="flex items-center mb-2">
-          <input type="text" x-model="param.key" class="flex-1 p-2 rounded-lg shadow-md">
-          <input type="text" x-model="param.value" class="flex-1 p-2 rounded-lg shadow-md">
+        <li class="flex items-center mb-2 gap-2">
+          <input type="text" x-model="param.key" class="flex-1 p-2 rounded-lg border shadow-md">
+          <input type="text" x-model="param.value" class="flex-1 p-2 rounded-lg border shadow-md">
           <button @click="params = params.filter(p => p.key !== param.key)"
             class="p-2 rounded-lg shadow-md bg-red-500 text-white">
             Remove
@@ -44,7 +47,7 @@
       </template>
     </ul>
     <button @click="params.push({ key: '', value: '' })"
-      class="block w-full p-2 rounded-lg shadow-md bg-blue-500 text-white mb-2">
+      class="block w-full p-2 rounded-lg shadow-md bg-blue-500 text-white">
       Add Query Parameter
     </button>
   </div>
