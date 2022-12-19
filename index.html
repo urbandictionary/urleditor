@@ -5,7 +5,27 @@
   <meta charset="utf-8">
   <title>Query Parameter Manager</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    const app = {
+      url: 'https://example.com/?a=1&b=2',
+      params: [],
+      init() {
+        this.parseParams();
+      },
+      parseParams() {
+        const url = new URL(this.url);
+        this.params = [...url.searchParams.entries()].map(([key, value]) => ({ key, value }));
+      },
+      get formattedUrl() {
+        const url = new URL(this.url);
+        url.search = '';
+        this.params.forEach(param => url.searchParams.set(param.key, param.value));
+        console.log(url.toString());
+        return url.toString();
+      }
+    };
+  </script>
 </head>
 
 <body>
@@ -29,26 +49,8 @@
       Add Query Parameter
     </button>
     <p class="text-xl font-bold mb-2">Updated URL:</p>
-    <p class="text-xl font-bold" x-bind:text="formattedUrl"></p>
+    <p class="text-xl font-bold" x-text="formattedUrl"></p>
   </div>
-  <script>
-    const app = {
-      url: '',
-      params: [],
-      formattedUrl: '',
-      parseParams() {
-        const url = new URL(this.url);
-        this.params = [...url.searchParams.entries()].map(([key, value]) => ({ key, value }));
-        this.formattedUrl = this.formatUrl();
-      },
-      formatUrl() {
-        const url = new URL(this.url);
-        url.search = '';
-        this.params.forEach(param => url.searchParams.set(param.key, param.value));
-        return url.toString();
-      }
-    };
-  </script>
 </body>
 
 </html>
