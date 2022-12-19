@@ -30,7 +30,7 @@
 <body>
   <div x-data="app">
     <label for="url-input" class="block text-xl font-bold mb-2">URL:</label>
-    <input id="url-input" type="text" x-model="url" @input="parseParams" class="block w-full p-2 rounded-lg shadow-md">
+    <input id="url-input" type="text" x-model="url" x-bind:value="formattedUrl" @input="parseParams" class="block w-full p-2 rounded-lg shadow-md">
     <ul class="list-inside list-disc">
       <template x-for="param in params" :key="param.key">
         <li class="flex items-center mb-2">
@@ -47,8 +47,6 @@
       class="block w-full p-2 rounded-lg shadow-md bg-blue-500 text-white mb-2">
       Add Query Parameter
     </button>
-    <p class="text-xl font-bold mb-2">Updated URL:</p>
-    <p class="text-xl font-bold" x-text="formattedUrl"></p>
   </div>
 </body>
 
