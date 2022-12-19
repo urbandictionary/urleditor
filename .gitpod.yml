@@ -1,0 +1,5 @@
+tasks:
+  - command: python3 -mhttp.server
+ports:
+  - port: 8000
+    onOpen: open-browser
